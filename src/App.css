@@ -14,6 +14,16 @@ body, html, .App {
   margin-bottom: 10px;
   color: #fa9000;
 }
+.main-intro {
+  display:flex; flex-direction:column; align-items:center; text-align:center;
+  gap:6px; margin-bottom:10px; margin-top:3px;
+}
+.main-intro span {
+  font-size:1.2em; font-weight:700; color:#ab5102; line-height:1.43;
+}
+.main-intro .intro-desc {
+  font-size:1.05em; color:#38545e; font-weight:500; margin-top:2px; line-height:1.51;
+}
 .header nav {
   display: flex; gap: 18px; flex-wrap: wrap;
 }
@@ -25,10 +35,11 @@ body, html, .App {
   padding: 60px 15px 50px; text-align: center;
 }
 .hero h2 {
-  font-size: 2.2rem; color:#fa9000; margin-bottom: 14px; font-weight: 800;
+  font-size: 2.1rem; color:#fa9000; margin-bottom: 14px; font-weight: 800; line-height:1.33; letter-spacing:-1.3px;
 }
 .hero p {
-  font-size: 1.1rem; margin-bottom: 23px;
+  font-size: 1.09rem; margin-bottom: 23px; line-height:1.6; word-break:keep-all;
+  color: #414141;
 }
 .cta {
   display: inline-block; background: #fa9000; color: #fff;
@@ -43,11 +54,22 @@ body, html, .App {
 }
 .timeline h3 { color:#ff9800; }
 .timeline ul {
-  list-style: none; padding: 0; font-size: 1.05rem;
+  list-style:none; padding:0; margin:22px 0 10px; display:flex; justify-content:center; gap:28px; flex-wrap:wrap;
 }
 .timeline li {
-  margin: 12px 0; display:inline-block;
+  background:#fff3e6; border-radius:9px;
+  border: 2.2px solid #ffc17c;
+  box-shadow:0 3px 13px #ffd08d77; 
+  padding:18px 13px; min-width:82px; font-size:1.07em;
+  margin:0; display: flex; flex-direction: column; align-items: center; line-height:1.6;
+  transition: border .17s, box-shadow .17s;
 }
+.timeline li:hover {
+  border:2.2px solid #ff9800;
+  box-shadow: 0 5px 18px #fcc164aa;
+}
+.timeline li b {color:#e57200; font-size:1.13em; margin-bottom:7px;}
+.timeline li span {display:block;font-size:0.99em;color:#725d44; margin-top:3px;}
 .timeline .desc {margin-top:16px;font-size:.98rem;color:#444;}
 .make {
   background: #fbeadf; padding: 45px 0 30px; text-align:center;
@@ -181,15 +203,119 @@ body, html, .App {
   background: #ffb74d;
   color: #fff;
 }
+.mbr { display:none; }
+.qabox {
+  background: #fffbea;
+  border-radius: 12px;
+  margin: 30px 0 0;
+  padding: 18px 19px 15px;
+  box-shadow: 0 2px 11px #ffe5ae2f;
+  font-size: 1rem;
+  color: #4d3e24;
+}
+.qabox .q {
+  font-weight: bold;
+  color: #be8c04;
+  margin-bottom: 8px;
+}
+.qabox .a {
+  color:#4d3e24; font-weight:400; line-height:1.7; word-break:keep-all;
+  margin-top:4px;
+}
+.warnbox {
+  background: #fff6e1;
+  border: 1.7px solid #ffcc80;
+  border-radius: 11px;
+  margin: 23px 0 0;
+  padding: 15px 17px 12px;
+  box-shadow: 0 2px 9px #ffe9ae3f;
+  font-size: 1rem;
+  color: #7d5320;
+}
+.warnbox .warn-title {
+  color: #cc6a00;
+  font-weight: bold;
+  margin-bottom: 9px;
+}
+.warnbox .warn-body blockquote {
+  margin: 0;
+  border-left: 4px solid #ffc675;
+  background: #fff9db;
+  padding: 9px 13px;
+  border-radius: 7px;
+  font-size: 0.99em;
+  line-height: 1.7;
+  color:#8c5a1d;
+}
+.modal-overlay {
+  position:fixed; inset:0; z-index:8000;
+  background:rgba(80,50,3,0.20);
+  display:flex; align-items:center; justify-content:center;
+}
+.modal-contact {
+  background:#fffbea;
+  border:2.5px solid #fbc16b;
+  box-shadow:0 8px 38px #ffcf9f70, 0 1.5px 8px #f4b65120;
+  border-radius: 18px;
+  padding:35px 23px 28px;
+  min-width: 280px;
+  max-width: 97vw; width:350px;
+  position:relative;
+  animation:modalPop .25s cubic-bezier(.25,1.7,.25,1.1);
+}
+@keyframes modalPop {
+  from{ transform:scale(0.85); opacity:0 }
+  to{ transform:scale(1); opacity:1 }
+}
+.modal-close {
+  position: absolute; right:15px; top:13px;
+  background: none;
+  font-size:2.3em; color: #e79d00; border:none; cursor:pointer;
+  transition: color .17s; z-index:2;
+}
+.modal-close:hover { color:#a95000; }
+.contact-page-modal h3 { font-size: 1.19em; text-align: center; margin-bottom: 17px; color:#fa9000; }
+.make-detail {
+  margin-top: 28px;
+  min-height:47px;
+}
+.make-web-detail {
+  background:#fff7ea;
+  border-radius:13px;
+  border:2px solid #ffcf95;
+  box-shadow:0 2px 11px #ffe6c63a;
+  padding:19px 17px 16px 13px;
+  margin:0 auto 0; max-width:404px;
+}
+.web-preview {display:flex; align-items:flex-start; gap:5px;}
+.web-preview img {border-radius:9px; border:1.2px solid #ffe0b2; background:#fffbe5; box-shadow:0 2px 4px #fae0b650; width:54px; height:54px;object-fit:contain;}
+.web-preview a {color:#2a69a8; text-decoration:underline;}
+.make-web-detail h4{margin:0 0 8px;color:#ffb633;}
+.make-other-detail{background:#f5f6fa;color:#666;border-radius:9px;box-shadow:0 1px 8px #ede7d080;padding:16px 13px;text-align:center;max-width:350px;margin:0 auto;font-size:.99em;}
+.make-list button.selected, .make-list button.active {
+  border: 2.1px solid #fc9604;
+  font-weight:700;
+  background:#fff3e0;
+  color:#c86909;
+}
 @media (max-width:800px){
   .header nav {gap:13px; font-size:.97rem;}
   .make-list {gap:7px;}
   .price-box {padding:13px 12px;}
+  .timeline ul{gap:11px;}
+  .timeline li{padding:12px 6px; font-size:.98em;}
 }
 @media (max-width:550px){
+  .header{padding: 21px 0 6px;}
+  .header h1{font-size:1.12em;margin-bottom:6px;}
+  .main-intro span{font-size:1em;}
+  .main-intro .intro-desc{font-size:0.97em;}
+  .main-intro{gap:2.5px;margin-bottom:7px;}
   .header {padding:25px 7px 7px;}
-  .hero {padding:32px 3vw 25px;}
-  .hero h2 {font-size:1.25rem;}
+  .hero {padding:24px 3vw 12px;}
+  .hero h2 { font-size:1.18rem; line-height:1.44; }
+  .hero p { font-size:0.97rem; }
+  .mbr { display:inline; }
   .make-list span {font-size:0.95rem; padding:10px 13px;}
   .footer {font-size:0.88rem;}
   .contact-page{padding:19px 6vw; margin:32px 7px 24px;}
@@ -198,4 +324,12 @@ body, html, .App {
     font-size:.99em;padding:8px 8px 8px 8px;
   }
   .nav-tabs{gap:1.3vw;}
+  .timeline ul{flex-direction:column;gap:10px;align-items:center;}
+  .timeline li{width:97%; min-width:unset;max-width:295px; font-size:0.95em;}
+  .qabox{padding:11px 7px 10px; font-size:0.98em; margin-top:14px;}
+  .warnbox { font-size: 0.97em; padding: 8px 7px; }
+  .warnbox .warn-body blockquote {font-size:0.96em; padding:7px 6px;}
+  .warnbox .warn-title{font-size:1em;}
+  .modal-contact{padding:15px 4vw 12px; width:95vw;}
+  .contact-page-modal h3{font-size:1em;}
 }

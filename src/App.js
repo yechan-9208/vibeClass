@@ -10,64 +10,37 @@ import {
 
 // ----- 모달 문의폼 구현 -----
 function ModalContactForm({ onClose }) {
-  const [name, setName] = React.useState('');
-  const [phone, setPhone] = React.useState('');
-  const [message, setMessage] = React.useState('');
-  const [sending, setSending] = React.useState(false);
-  const [error, setError] = React.useState('');
-  const [success, setSuccess] = React.useState('');
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(''); setSuccess('');
-    if(!name.trim() || !phone.trim() || !message.trim()) {
-      setError('모든 항목을 입력해주세요.');
-      return;
-    }
-    setSending(true);
-    try {
-      const res = await fetch('https://script.google.com/macros/s/AKfycbxyVZ3GTEwIE5jUrqzNpTI-KelNNniCsnAqChsw09AMFDBnI9rlnkKUEhcf9ktoVPTOTA/exec', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone, message }),
-      });
-      if(res.ok) {
-        setSuccess('문의가 정상적으로 등록되었습니다! 빠른 시일 내 답변드리겠습니다.');
-        setName(''); setPhone(''); setMessage('');
-      } else {
-        setError('전송에 실패했습니다. 다시 시도해주세요.');
-      }
-    } catch (err) {
-      setError('전송에 실패했습니다. 인터넷 연결을 확인해주세요!');
-    } finally {
-      setSending(false);
-    }
-  };
-
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-contact" onClick={e => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose}>&times;</button>
         <section className="contact-page-modal">
           <h3>🙌 문의하기</h3>
-          <form className="contact-form" onSubmit={handleSubmit}>
+          <form
+            action="https://script.google.com/macros/s/AKfycbyFNPQNOybCRv4-T700iO_K5IR4_ja3rMUs3QxwhvVkFl34F5yQpruVIIaRBJfKwSqJ2g/exec"
+            method="POST"
+            target="hidden_iframe"
+            onSubmit={() => setTimeout(onClose, 1000)}
+          >
             <label>
               이름
-              <input type="text" name="name" value={name} onChange={e => setName(e.target.value)} required />
+              <input type="text" name="name" required />
             </label>
             <label>
               연락처
-              <input type="text" name="phone" value={phone} onChange={e => setPhone(e.target.value)} required />
+              <input type="text" name="phone" required />
             </label>
             <label>
               문의 내용
-              <textarea name="message" rows={5} value={message} onChange={e => setMessage(e.target.value)} required></textarea>
+              <textarea name="message" rows={5} required></textarea>
             </label>
-            <button type="submit" disabled={sending}>전송</button>
+            <button type="submit">전송</button>
           </form>
-          <p style={{marginTop:'13px', fontSize:'.95em'}}>개인정보는 오직 문의를 위해서만 안전하게 사용됩니다.</p>
-          {error && <div className="form-msg form-error">{error}</div>}
-          {success && <div className="form-msg form-success">{success}</div>}
+          <iframe name="hidden_iframe" style={{ display: 'none' }} title="숨김" />
+          <p style={{ marginTop: '13px', fontSize: '.95em' }}>개인정보는 오직 문의를 위해서만 안전하게 사용됩니다.</p>
+          <p style={{ color: '#888', fontSize: '.93em', marginTop: '7px' }}>
+            (전송 후 1초 뒤 팝업이 자동으로 닫힙니다)
+          </p>
         </section>
       </div>
     </div>
@@ -184,6 +157,39 @@ const TABS = [
   { id: 'tutor', label: '튜터소개' }
 ];
 
+// 테스트 전송 버튼 컴포넌트
+function TestSendButton() {
+  const testSend = async () => {
+    const formData = new URLSearchParams({
+      name: "테스트유저",
+      phone: "010-0000-0000",
+      message: "이것은 자동 전송 테스트입니다."
+    });
+    try {
+      const res = await fetch("https://script.google.com/macros/s/AKfycbybWUllEO6u_d_6LhNybsXYrvY4oga0MsMWLtqQ8vgGyZUBFwpQ4ZYsfyEAaN3lSjD1/exec", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString()
+      });
+      if(res.ok) {
+        alert('테스트 전송 성공! (시트에서 내역을 확인하세요)');
+      } else {
+        alert('테스트 전송 실패...');
+      }
+    } catch (err) {
+      alert('요청 자체가 실패했습니다: ' + err.message);
+    }
+  };
+
+  return (
+    <div style={{textAlign:"center", marginTop:26}}>
+      <button onClick={testSend} style={{padding:'10px 23px', background:'#ffe4b8', border:'1.5px solid #e09122', borderRadius:7, margin:'6px 0 18px', fontWeight:700, fontSize:'1.07em', color:'#7a5206', cursor:'pointer'}}>
+        테스트 문의 전송
+      </button>
+    </div>
+  );
+}
+
 function MainPage() {
   const [activeTab, setActiveTab] = useState('what');
   const [modalContactOpen, setModalContactOpen] = useState(false);
@@ -224,6 +230,7 @@ function MainPage() {
       </header>
       {renderSection()}
       {modalContactOpen && <ModalContactForm onClose={closeContact}/>}
+      <TestSendButton />
       <footer className="footer">© 2025 VibeClass. All rights reserved.</footer>
     </div>
   );
